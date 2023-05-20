@@ -1,0 +1,7 @@
+body {
+    background-color: lightgoldenrodyellow;
+  }
+  
+  div[data-testid="stHorizontalBlock"] > div:nth-of-type(2) {
+    background-color: rgb(188, 234, 244);
+  }

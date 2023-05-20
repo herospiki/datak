@@ -1,0 +1,9 @@
+branca==0.6.0
+folium==0.14.0
+geopandas==0.12.2
+pandas==1.5.3
+plotly==5.13.1
+pygbif==0.6.2
+requests==2.30.0
+shapely==2.0.1
+streamlit==1.20.0
