@@ -1,4 +1,5 @@
 from shapely.geometry import Polygon, Point
+from shapely import centroid
 from pygbif import occurrences
 from pygbif import species
 import folium
@@ -83,7 +84,7 @@ def get_centroid(points):
     lat_lon_list = list(zip(points['decimalLatitude'].tolist(), points['decimalLongitude'].tolist()))
     if len(lat_lon_list) == 1 :
         print(lat_lon_list)
-        return lat_lon_list
+        return lat_lon_list[0]
     if len(lat_lon_list) == 2 :
         print(lat_lon_list)
         return get_center_coordinate(lat_lon_list)
@@ -93,14 +94,13 @@ def get_centroid(points):
     else : 
         print(lat_lon_list)
         poly = Polygon(lat_lon_list)
-        return poly.centroid
+        print(centroid(poly))
+        return centroid(poly).y, centroid(poly).x
 
 
 def create_map_eco_regions(df, geo_occ_df):
     # Calculer le centroïde des points pour centrer la carte d'emblée 
     lat,long =  get_centroid(geo_occ_df)
-    print(lat)
-    print(long)
     min_year = geo_occ_df['year'].min()
     max_year = geo_occ_df['year'].max()
     map = folium.Map(location=[lat, long], zoom_start=4)
@@ -130,7 +130,7 @@ def create_map_eco_regions(df, geo_occ_df):
     # Add a Marker layer with the points
             folium.Circle(radius=200,
                  location=(row.decimalLatitude,row.decimalLongitude),
-                 popup=Popup(row.species + " " + str(row.year) + " "+ row.country),
+                 popup=Popup(row.species + " " + str(row.year)),
                  color = colormap(row.year),
                  legend_name='year',
                  fill=True).add_to(map)

@@ -14,6 +14,8 @@ import geopandas as gpd
 from shapely import wkt
 import streamlit as st
 import my_functions as mf
+import requests
+from io import StringIO
 
 # Initial page config
 
@@ -32,8 +34,8 @@ def local_css(file_name):
 
 # Chargement des éco-regions
 
-path_to_eco_regions_csv = "..\data\eco_regions_light_file.csv"  
-path_to_cixiidae_flow_csv = "..\data\cixiidae_flow_species_genus_noms_complets.csv"
+path_to_eco_regions_csv = "data\eco_regions_light_file.csv"  
+path_to_cixiidae_flow_csv = "data\cixiidae_flow_species_genus_noms_complets.csv"
  
 
 features_to_keep = ['key', 'basisOfRecord', 'individualCount', 'scientificName', 'acceptedScientificName', 'kingdom', 'phylum',
