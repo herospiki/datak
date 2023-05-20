@@ -12,6 +12,7 @@ import geopandas as gpd
 # rank = species ou genus ou family
 
 def search_gbif_from_name_and_rank(searched_name, rank):
+    print(searched_name)
     name_backbone = species.name_backbone(searched_name, rank=rank, verbose=True) 
     rank_key = rank+"Key"
     if rank_key in name_backbone :
@@ -29,7 +30,6 @@ def search_gbif_from_name_and_rank(searched_name, rank):
 
 def build_geo_df(dict_results, features_to_keep, crs):
     # build empty dataframe
-    df_empty = pd.DataFrame(columns=features_to_keep)
     if (dict_results == 'Not Found') : 
          return pd.DataFrame()
     else : 
@@ -83,16 +83,12 @@ def get_centroid(points):
     # Extract (latitude, longitude) tuples from dataframe
     lat_lon_list = list(zip(points['decimalLatitude'].tolist(), points['decimalLongitude'].tolist()))
     if len(lat_lon_list) == 1 :
-        print(lat_lon_list)
         return lat_lon_list[0]
     if len(lat_lon_list) == 2 :
-        print(lat_lon_list)
         return get_center_coordinate(lat_lon_list)
     if len(lat_lon_list) == 3 :
-        print(lat_lon_list)
         return get_triangle_center(lat_lon_list)   
     else : 
-        print(lat_lon_list)
         poly = Polygon(lat_lon_list)
         print(centroid(poly))
         return centroid(poly).y, centroid(poly).x
@@ -126,7 +122,7 @@ def create_map_eco_regions(df, geo_occ_df):
            
     for row in geo_occ_df.itertuples(index=False):
         if (row.year != 'Nan') : 
-            print(row)
+            #print(row)
     # Add a Marker layer with the points
             folium.Circle(radius=200,
                  location=(row.decimalLatitude,row.decimalLongitude),
@@ -138,7 +134,7 @@ def create_map_eco_regions(df, geo_occ_df):
              folium.Circle(radius=200,
              location=(row.decimalLatitude,row.decimalLongitude),
              popup=Popup(row.family + " " + row.genus + " " + row.species + " "),
-             color = 'grey',
+             color = 'blue',
              fill=True).add_to(map)
              
     colormap.caption = 'Year of occurrence'
